@@ -1,4 +1,3 @@
-
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
@@ -16,7 +15,8 @@ def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
     urls = urlExtractor.urlChapterGenerator(noChapterUrl, chapterStart, chapterEnd)
     chapters = [str(i) for i in range(chapterStart, chapterEnd+1, 1)]
 
-    c = canvas.Canvas(novel + "_" + str(chapterStart) + "-" + str(chapterEnd) + ".pdf", pagesize = letter)
+    fileName = novel.replace("-", " ") + " Chapters " + str(chapterStart) + "-" + str(chapterEnd) + ".pdf"
+    c = canvas.Canvas(fileName, pagesize = letter)
 
     for master in range(len(urls)):
 
@@ -52,6 +52,4 @@ def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
             c.showPage()
     c.save()
     c.getAvailableFonts()
-    return print("done!")
-
-pdfGenerator("https://www.wuxiaworld.com/novel/martial-god-asura/mga-chapter-2", 2, 4)
+    return print("Done writing", fileName)
