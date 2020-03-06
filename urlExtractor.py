@@ -1,4 +1,3 @@
-
 def getUrl(url):
     fullUrl = url
     stripedUrl = url.split("/")
@@ -11,6 +10,6 @@ def getUrl(url):
 
 
 def urlChapterGenerator(noChapterUrl, chapterStart, chapterEnd):
-    chapters = [str(chapter) for chapter in range(chapterStart, chapterEnd+1, 1)]
+    chapters = [str(chapter) for chapter in range(chapterStart, chapterEnd + 1, 1)]
     urls = [noChapterUrl + chapter for chapter in chapters]
     return urls

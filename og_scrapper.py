@@ -1,22 +1,25 @@
-from reportlab.pdfbase.ttfonts import TTFont
+import itertools
+from textwrap import wrap
+
+from bs4 import BeautifulSoup
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
-from bs4 import BeautifulSoup
-from textwrap import wrap
 from requests import get
-import urlExtractor
-import itertools
 
-pdfmetrics.registerFont(TTFont("DejaVuSansCondensed", "DejaVuSansCondensed.ttf"))
+import urlExtractor
+
 
 def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
+    pdfmetrics.registerFont(TTFont("DejaVuSansCondensed", "DejaVuSansCondensed.ttf"))
+
     novel, noChapterUrl = urlExtractor.getUrl(randomChapterUrl)
     urls = urlExtractor.urlChapterGenerator(noChapterUrl, chapterStart, chapterEnd)
-    chapters = [str(i) for i in range(chapterStart, chapterEnd+1, 1)]
+    chapters = [str(i) for i in range(chapterStart, chapterEnd + 1, 1)]
 
     fileName = novel.replace("-", " ") + " Chapters " + str(chapterStart) + "-" + str(chapterEnd) + ".pdf"
-    c = canvas.Canvas(fileName, pagesize = letter)
+    c = canvas.Canvas(fileName, pagesize=letter)
 
     for master in range(len(urls)):
 
@@ -40,7 +43,7 @@ def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
 
         new_text = list(itertools.chain.from_iterable(new_text))
 
-        pages = [new_text[35*i:35*(i+1)] for i in range(int(len(new_text)/35 + 1))]
+        pages = [new_text[35 * i:35 * (i + 1)] for i in range(int(len(new_text) / 35 + 1))]
 
         c.setFont('DejaVuSansCondensed', 70)
         c.drawString(100, 600, "Chapter " + str(chapters[master]))
