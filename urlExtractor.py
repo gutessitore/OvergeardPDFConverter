@@ -9,7 +9,7 @@ def getUrl(url):
     return novel, noChapterUrl
 
 
-def urlChapterGenerator(noChapterUrl, chapterStart, chapterEnd):
-    chapters = [str(chapter) for chapter in range(chapterStart, chapterEnd + 1, 1)]
+def urlChapterGenerator(noChapterUrl, chapterStart, chapterEnd, step=1):
+    chapters = [str(chapter) for chapter in range(chapterStart, chapterEnd + 1, step)]
     urls = [noChapterUrl + chapter for chapter in chapters]
     return urls

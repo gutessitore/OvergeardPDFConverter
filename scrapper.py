@@ -1,14 +1,34 @@
 import itertools
 from textwrap import wrap
 
+import requests
 from bs4 import BeautifulSoup
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from requests import get
+from tqdm import tqdm
 
 import urlExtractor
+
+
+def getLastChapter(randomChapterUrl):
+    novel, noChapterUrl = urlExtractor.getUrl(randomChapterUrl)
+    urls = urlExtractor.urlChapterGenerator(noChapterUrl, 1, 7000, 100)
+
+    for url in urls:
+        if get(url).status_code != requests.codes.ok:
+            lastError100 = urls.index(url) * 100 - 99
+            break
+    newUrls = urlExtractor.urlChapterGenerator(noChapterUrl, lastError100, lastError100 + 100, 1)
+
+    for url in newUrls:
+        if get(url).status_code != requests.codes.ok:
+            lastError = newUrls.index(url) + lastError100 - 1
+            break
+
+    return lastError
 
 
 def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
@@ -21,7 +41,9 @@ def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
     fileName = novel.replace("-", " ") + " Chapters " + str(chapterStart) + "-" + str(chapterEnd) + ".pdf"
     c = canvas.Canvas(fileName, pagesize=letter)
 
-    for master in range(len(urls)):
+    print("Starting to convert...")
+
+    for master in tqdm(range(len(urls))):
 
         html = get(urls[master]).content
         content = BeautifulSoup(html, 'html.parser')
