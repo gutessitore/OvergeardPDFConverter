@@ -12,10 +12,11 @@ $ cd WuxiaWorldPDFConverter
 $ python3 setup.py
 ```
 ### Usage
+To convert specific chapters
 ```bash
-#conver some chapter
 $python3 -l  https://www.wuxiaworld.com/novel/emperors-domination/emperor-chapter-12 -s 5 -e 10
-
-#convert all chapter
+```
+To convert all chapters
+```bash
 $python3 --all -l  https://www.wuxiaworld.com/novel/emperors-domination/emperor-chapter-12
 ```
