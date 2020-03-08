@@ -38,7 +38,7 @@ def pdfGenerator(randomChapterUrl, chapterStart, chapterEnd):
     urls = urlExtractor.urlChapterGenerator(noChapterUrl, chapterStart, chapterEnd)
     chapters = [str(i) for i in range(chapterStart, chapterEnd + 1, 1)]
 
-    fileName = novel.replace("-", " ") + " Chapters " + str(chapterStart) + "-" + str(chapterEnd) + ".pdf"
+    fileName = novel + "_Chapters_" + str(chapterStart) + "-" + str(chapterEnd) + ".pdf"
     c = canvas.Canvas(fileName, pagesize=letter)
 
     print("Starting to convert...")
